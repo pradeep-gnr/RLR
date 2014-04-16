@@ -1,5 +1,6 @@
 package util;
 import java.math.*;
+import java.util.Random;
 public class VectorOperations {
 	/*
 	 * Class methods for various vector operations.
@@ -17,6 +18,23 @@ public class VectorOperations {
 			totalSum+=vector.elements[i];			
 		}		
 		return totalSum/vector.dim;
+	}
+	
+	public static Vector generateRandomVector(int dim, double lower, double upper)
+	{
+		/*
+		 * This method generates a random vector of a dimension d. Each v_i in V is sampled between lower and upper
+		 * @param dim - dimension of the vector
+		 * @param lower - lower bound of the range from which we want to generate a random number.
+		 * @param upper - upper bound of the range from which we want to generate a random number.
+		 */
+		double[] array = new double[dim];
+		for(int i=0;i<dim;i++)
+		{
+			double R = (Math.random() * (upper - lower)) + lower;
+			array[i] = R;
+		}
+		return new Vector(array);
 	}
 	
 	static double getVectorVariance(Vector vector)
@@ -114,6 +132,18 @@ public class VectorOperations {
 			System.out.println(a[i]);
 		}
 		System.out.println(a);
+		
+		/*
+		 * 
+		 */
+		double[] b = generateRandomVector(6, 0, 1).elements;
+		for(int i=0;i<b.length;i++)
+		{
+			System.out.println(b[i]);
+		}
+		
+		
+		
 		
 	}
 

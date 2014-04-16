@@ -62,8 +62,21 @@ public class CorpusLoader {
 					//System.out.println(components.length);
 					int classVal = Integer.parseInt(components[0]);
 					
-					double[] featureArray = new double[components.length-4];
+					/*
+					 * Use class value of -1 and 1 
+					 */
+					if(classVal==0)
+						classVal=-1;
+					
+					double[] featureArray = new double[components.length-3];
 					int k=0;
+					featureArray[k] = 1;
+					
+					/*
+					 * 
+					 */
+					k+=1;
+					
 					for(int i=1;i<components.length;i++)
 					{
 						/*
