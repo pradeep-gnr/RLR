@@ -1,0 +1,3 @@
+train=/home/pradeep/courses/IR/HW5/data/data/train.txt
+test=/home/pradeep/courses/IR/HW5/data/data/test.txt
+c=50

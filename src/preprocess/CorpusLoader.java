@@ -7,7 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import util.MatrixUtil;
+import util.MiscUtilities;
 import util.Vector;
+import util.VectorOperations;
+
 import org.ejml.simple.SimpleMatrix;;
 public class CorpusLoader {
 	/*
@@ -65,10 +70,10 @@ public class CorpusLoader {
 					/*
 					 * Use class value of -1 and 1 
 					 */
-					if(classVal==0)
-						classVal=-1;
+					//if(classVal==0)
+						//classVal=-1;
 					
-					double[] featureArray = new double[components.length-3];
+					double[] featureArray = new double[components.length-3+3];
 					int k=0;
 					featureArray[k] = 1;
 					
@@ -96,6 +101,11 @@ public class CorpusLoader {
 							k+=1;
 						}																	
 					}
+					
+					featureArray[k] = featureArray[17]*featureArray[25]; k+=1;
+					featureArray[k] = featureArray[33]+featureArray[34]+ featureArray[35]+featureArray[36]; k+=1;
+					featureArray[k] = featureArray[7]*featureArray[8]; k+=1;
+					
 				
 					colLen=k;
 					featureArray[k]=classVal;
@@ -104,7 +114,8 @@ public class CorpusLoader {
 					/*
 					 * Now convert to a vector and add it to the Vector array List.
 					 */					
-					featureVectors.add(new Vector(featureArray));						
+					featureVectors.add(new Vector(featureArray));			
+					//System.out.println(new Vector(featureArray).dim);
 					//new Vector(featureArray).print();
 					//System.out.println("\n\n");				
 					
@@ -113,6 +124,7 @@ public class CorpusLoader {
 				SimpleMatrix dataMatrix = getMatrixFromVectorList(featureVectors, rowLen, colLen);
 				
 				//dataMatrix.print();
+				//MiscUtilities.writeMatrixToFile(dataMatrix, "/home/pradeep/mat.mat");
 				return dataMatrix;
 				
 				
@@ -144,11 +156,16 @@ public class CorpusLoader {
 		 */
 		
 		SimpleMatrix dataMatrix = new SimpleMatrix(rowLen,colLen+1);
-		System.out.println(rowLen + "  "+ colLen);
+		//System.out.println(rowLen + "  "+ colLen);
 		for(int i=0;i<featureVectorList.size();i++)
 		{
 						
 			Vector curFeatVector = featureVectorList.get(i);
+			//System.out.println(curFeatVector.dim);
+			
+			// Normalize vector.
+			curFeatVector = VectorOperations.normalizeVector(curFeatVector);
+			//curFeatVector.elements[0]=1;
 			for(int j=0;j<curFeatVector.dim; j++)
 			{
 				/*
@@ -158,10 +175,7 @@ public class CorpusLoader {
 			}
 		}
 		
-		return dataMatrix;
-		
-		
-		
+		return dataMatrix;		
 	}
 	public static void main(String args[])
 	{
@@ -169,7 +183,7 @@ public class CorpusLoader {
 		 * Test the Corpus loader.
 		 */
 		
-		System.out.println(loadCorporaFromPath("/home/pradeep/courses/IR/HW5/data/data/train.txt", "msr"));
+		//System.out.println(loadCorporaFromPath("/home/pradeep/courses/IR/HW5/data/data/train.txt", "msr"));
 		
 		
 	}
